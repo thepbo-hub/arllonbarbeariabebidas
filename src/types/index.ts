@@ -20,6 +20,7 @@ export interface Product {
   priceInCents: number; // in integer cents (e.g. 600)
   image: string;
   videoUrl?: string;
+  localVideoUrl?: string;
   description: string;
   animationType: DrinkAnimationType;
   category: string;

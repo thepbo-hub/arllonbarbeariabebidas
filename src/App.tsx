@@ -7,7 +7,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
 import { LegalModal, LegalModalType } from './components/LegalModal';
-import { PRODUCTS, HERO_VIDEO_URL } from './data/products';
+import { PRODUCTS, HERO_VIDEO_URL, LOCAL_HERO_VIDEO_URL } from './data/products';
 import { Product } from './types';
 import { CartProvider, useCart } from './context/CartContext';
 import { Sparkles, Flame, AlertCircle } from 'lucide-react';
@@ -124,6 +124,13 @@ function CatalogContent() {
       {/* Full-Page Background Video on Desktop (Computador) */}
       <div className="hidden md:block fixed inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden">
         <video
+          ref={(el) => {
+            if (el) {
+              el.muted = true;
+              el.defaultMuted = true;
+              el.play().catch(() => {});
+            }
+          }}
           autoPlay
           loop
           muted
@@ -132,6 +139,7 @@ function CatalogContent() {
           className="w-full h-full object-cover object-center opacity-65"
           style={{ filter: 'brightness(0.68) contrast(1.15)' }}
         >
+          <source src={LOCAL_HERO_VIDEO_URL} type="video/mp4" />
           <source src={HERO_VIDEO_URL} type="video/mp4" />
         </video>
         {/* Full-page ambient barbershop overlays on desktop */}

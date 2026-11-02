@@ -8,6 +8,7 @@ interface Props {
   image: string;
   name: string;
   videoUrl?: string;
+  localVideoUrl?: string;
   onImageLoaded?: () => void;
 }
 
@@ -16,12 +17,13 @@ export const DrinkAnimationStage: React.FC<Props> = ({
   image,
   name,
   videoUrl,
+  localVideoUrl,
   onImageLoaded,
 }) => {
   const [triggerKey, setTriggerKey] = useState(0);
   const [imgError, setImgError] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const handleReplay = () => {
     setTriggerKey((prev) => prev + 1);
@@ -30,6 +32,8 @@ export const DrinkAnimationStage: React.FC<Props> = ({
       videoRef.current.play().catch(() => {});
     }
   };
+
+  const hasVideo = Boolean(localVideoUrl || videoUrl);
 
   return (
     <div
@@ -40,21 +44,27 @@ export const DrinkAnimationStage: React.FC<Props> = ({
         border: '1px solid rgba(66, 200, 255, 0.2)',
         boxShadow: 'inset 0 0 60px rgba(4, 23, 43, 0.9), 0 15px 35px rgba(4, 23, 43, 0.7)',
       }}
-      title={videoUrl ? 'Toque para reiniciar o vídeo oficial' : 'Clique na bebida para reviver a animação'}
+      title={hasVideo ? 'Toque para reiniciar o vídeo oficial' : 'Clique na bebida para reviver a animação'}
     >
       {/* Replay indicator pill */}
       <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#04172B]/75 border border-[#42C8FF]/30 text-xs font-medium text-[#AAB8CA] backdrop-blur-md opacity-80 group-hover:opacity-100 group-hover:border-[#42C8FF] transition-all">
         <RefreshCw className="w-3.5 h-3.5 text-[#42C8FF] group-hover:rotate-180 transition-transform duration-500" />
-        <span>{videoUrl ? 'Reiniciar Vídeo' : 'Toque para animar'}</span>
+        <span>{hasVideo ? 'Reiniciar Vídeo' : 'Toque para animar'}</span>
       </div>
 
       {/* Render Video if provided and functional, otherwise render signature animation */}
-      {videoUrl && !videoError ? (
+      {hasVideo && !videoError ? (
         <div className="relative w-full h-full flex flex-col items-center justify-center p-4">
           <div className="relative max-h-[300px] sm:max-h-[360px] flex items-center justify-center overflow-hidden rounded-xl">
             <video
-              ref={videoRef}
-              src={videoUrl}
+              ref={(el) => {
+                videoRef.current = el;
+                if (el) {
+                  el.muted = true;
+                  el.defaultMuted = true;
+                  el.play().catch(() => {});
+                }
+              }}
               autoPlay
               loop
               muted
@@ -62,7 +72,10 @@ export const DrinkAnimationStage: React.FC<Props> = ({
               aria-label={`Apresentação em vídeo oficial da bebida ${name}`}
               onError={() => setVideoError(true)}
               className="max-h-[300px] sm:max-h-[360px] w-auto object-contain filter drop-shadow-[0_15px_30px_rgba(4,23,43,0.9)]"
-            />
+            >
+              {localVideoUrl && <source src={localVideoUrl} type="video/mp4" />}
+              {videoUrl && <source src={videoUrl} type="video/mp4" />}
+            </video>
           </div>
           <span className="text-[11px] font-semibold text-[#42C8FF] mt-2 flex items-center gap-1">
             <Sparkles className="w-3 h-3" aria-hidden="true" /> Vídeo Oficial da Bebida

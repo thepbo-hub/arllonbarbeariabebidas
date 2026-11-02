@@ -132,9 +132,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               image={product.image}
               name={product.name}
               videoUrl={product.videoUrl}
+              localVideoUrl={product.localVideoUrl}
             />
             <p className="text-[11px] text-center text-[#AAB8CA] mt-2.5">
-              {product.videoUrl
+              {product.localVideoUrl || product.videoUrl
                 ? 'Toque na mídia acima para reiniciar o vídeo oficial da bebida'
                 : 'Toque na bebida acima para reiniciar a animação exclusiva'}
             </p>

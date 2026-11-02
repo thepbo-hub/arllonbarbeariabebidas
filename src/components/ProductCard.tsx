@@ -103,7 +103,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="absolute inset-x-0 bottom-2 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 pointer-events-none">
           <span className="px-3 py-1 rounded-full bg-[#04172B]/90 border border-[#42C8FF]/40 text-xs font-semibold text-[#42C8FF] backdrop-blur-md shadow-lg flex items-center gap-1.5">
             <Eye className="w-3.5 h-3.5" aria-hidden="true" />
-            {product.videoUrl ? 'Ver Vídeo' : 'Ver Animação'}
+            {product.localVideoUrl || product.videoUrl ? 'Ver Vídeo' : 'Ver Animação'}
           </span>
         </div>
       </div>

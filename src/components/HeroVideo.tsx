@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HERO_VIDEO_URL } from '../data/products';
+import { HERO_VIDEO_URL, LOCAL_HERO_VIDEO_URL } from '../data/products';
 import { ChevronDown, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -15,6 +15,13 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ onExploreClick }) => {
       {/* Background Video Layer: dedicated for mobile (on desktop, App.tsx provides the full-page video) */}
       {!videoError && (
         <video
+          ref={(el) => {
+            if (el) {
+              el.muted = true;
+              el.defaultMuted = true;
+              el.play().catch(() => {});
+            }
+          }}
           autoPlay
           loop
           muted
@@ -24,6 +31,7 @@ export const HeroVideo: React.FC<HeroVideoProps> = ({ onExploreClick }) => {
           className="md:hidden absolute inset-0 w-full h-full min-w-full min-h-full object-cover object-center pointer-events-none select-none opacity-80"
           style={{ filter: 'brightness(0.72) contrast(1.15)' }}
         >
+          <source src={LOCAL_HERO_VIDEO_URL} type="video/mp4" />
           <source src={HERO_VIDEO_URL} type="video/mp4" />
         </video>
       )}
