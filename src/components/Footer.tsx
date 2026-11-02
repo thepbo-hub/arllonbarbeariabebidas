@@ -13,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({ onBackToTop, onOpenLegal }) => {
   const { totalItemsCount, openCart } = useCart();
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#04172B] via-[#04172B] to-[#020b15] pt-16 pb-12 border-t border-[#1687FF]/15">
+    <footer className="relative z-10 bg-gradient-to-b from-[#04172B]/90 via-[#04172B]/95 to-[#020b15] backdrop-blur-md pt-16 pb-12 border-t border-[#1687FF]/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
         {/* Subtle ambient glow behind logo */}
         <div className="relative mb-6">

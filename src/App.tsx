@@ -7,7 +7,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
 import { LegalModal, LegalModalType } from './components/LegalModal';
-import { PRODUCTS } from './data/products';
+import { PRODUCTS, HERO_VIDEO_URL } from './data/products';
 import { Product } from './types';
 import { CartProvider, useCart } from './context/CartContext';
 import { Sparkles, Flame, AlertCircle } from 'lucide-react';
@@ -120,12 +120,30 @@ function CatalogContent() {
   }, [activeCategory]);
 
   return (
-    <div className="min-h-screen bg-[#04172B] text-[#F5F8FC] selection:bg-[#1687FF]/30 flex flex-col justify-between">
+    <div className="relative min-h-screen bg-[#04172B] text-[#F5F8FC] selection:bg-[#1687FF]/30 flex flex-col justify-between overflow-x-hidden">
+      {/* Full-Page Background Video on Desktop (Computador) */}
+      <div className="hidden md:block fixed inset-0 w-full h-full pointer-events-none select-none z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center opacity-65"
+          style={{ filter: 'brightness(0.68) contrast(1.15)' }}
+        >
+          <source src={HERO_VIDEO_URL} type="video/mp4" />
+        </video>
+        {/* Full-page ambient barbershop overlays on desktop */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#082E5A]/45 via-[#04172B]/65 to-[#04172B]/85 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-radial from-transparent via-[#04172B]/40 to-[#04172B]/80" />
+      </div>
+
       {/* Top Header */}
       <Header onScrollToCatalog={scrollToCatalog} />
 
       {/* Main Content */}
-      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+      <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 outline-none">
         {/* Upper Hero Cinematic Video Section */}
         <HeroVideo onExploreClick={scrollToCatalog} />
 
