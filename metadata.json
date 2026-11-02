@@ -1,0 +1,6 @@
+{
+  "name": "Arllon Fernandes Barbearia - Bebidas",
+  "description": "Catálogo interativo de bebidas da Arllon Fernandes Barbearia com vídeos oficiais, animações exclusivas e checkout rápido via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

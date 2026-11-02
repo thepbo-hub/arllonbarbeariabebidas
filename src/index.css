@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #04172B;
+    color: #F5F8FC;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-mono-numbers {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* 3D Tactile Buttons with Gleam & Bevel */
+.btn-3d-primary {
+  position: relative;
+  background: linear-gradient(180deg, #1687FF 0%, #0d5bb0 60%, #082E5A 100%);
+  border: 1px solid rgba(66, 200, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 0 #04172B, 0 8px 20px rgba(22, 135, 255, 0.35);
+  border-radius: 0.75rem;
+  font-weight: 700;
+  color: #F5F8FC;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn-3d-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #04172B, 0 12px 24px rgba(22, 135, 255, 0.45);
+  border-color: rgba(66, 200, 255, 0.7);
+}
+
+.btn-3d-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #04172B, 0 4px 10px rgba(22, 135, 255, 0.2);
+}
+
+/* Secondary 3D button */
+.btn-3d-secondary {
+  position: relative;
+  background: linear-gradient(180deg, #0f3056 0%, #0B2340 100%);
+  border: 1px solid rgba(66, 200, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 0 #04172B, 0 6px 14px rgba(4, 23, 43, 0.6);
+  border-radius: 0.75rem;
+  font-weight: 600;
+  color: #F5F8FC;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn-3d-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #04172B, 0 8px 18px rgba(4, 23, 43, 0.8);
+  border-color: rgba(66, 200, 255, 0.4);
+  color: #ffffff;
+}
+
+.btn-3d-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #04172B, 0 3px 6px rgba(4, 23, 43, 0.5);
+}
+
+/* Danger 3D button (red for removal/alerts) */
+.btn-3d-danger {
+  position: relative;
+  background: linear-gradient(180deg, #ff6b75 0%, #FF5A65 60%, #c4323c 100%);
+  border: 1px solid rgba(255, 90, 101, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 3px 0 #04172B, 0 6px 14px rgba(255, 90, 101, 0.3);
+  border-radius: 0.625rem;
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-3d-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #04172B, 0 8px 18px rgba(255, 90, 101, 0.45);
+}
+
+.btn-3d-danger:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #04172B, 0 2px 4px rgba(255, 90, 101, 0.3);
+}
+
+/* Success 3D button */
+.btn-3d-success {
+  position: relative;
+  background: linear-gradient(180deg, #4ce0aa 0%, #35D49A 60%, #1f9d6f 100%);
+  border: 1px solid rgba(53, 212, 154, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 0 #04172B, 0 8px 18px rgba(53, 212, 154, 0.3);
+  border-radius: 0.75rem;
+  color: #04172B;
+  font-weight: 700;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-3d-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #04172B, 0 10px 22px rgba(53, 212, 154, 0.4);
+}
+
+.btn-3d-success:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #04172B;
+}
+
+/* Periodic shimmer sweep on 3D primary buttons every 4.5s */
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-22deg);
+  animation: shimmer 4.5s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0%, 65% {
+    left: -120%;
+  }
+  85%, 100% {
+    left: 180%;
+  }
+}
+
+/* Card 3D Depth Styling */
+.card-3d-luxury {
+  background: linear-gradient(180deg, #093466 0%, #082E5A 100%);
+  border: 1px solid rgba(66, 200, 255, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 30px -10px rgba(4, 23, 43, 0.8), 0 0 20px -5px rgba(22, 135, 255, 0.12);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.card-3d-luxury:hover {
+  border-color: rgba(66, 200, 255, 0.45);
+  box-shadow: 0 20px 40px -10px rgba(4, 23, 43, 0.9), 0 0 30px rgba(22, 135, 255, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #04172B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0B2340;
+  border-radius: 4px;
+  border: 1px solid rgba(66, 200, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1687FF;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
