@@ -12,6 +12,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onSelect,
+  index,
 }) => {
   const [imgError, setImgError] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
@@ -88,7 +89,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             src={product.image}
             alt={`Embalagem original da bebida ${product.name}`}
             onError={() => setImgError(true)}
-            loading="lazy"
+            loading={index < 4 ? 'eager' : 'lazy'}
+            decoding="async"
             referrerPolicy="no-referrer"
             className="relative z-10 max-h-44 sm:max-h-52 w-auto object-contain filter drop-shadow-[0_12px_18px_rgba(4,23,43,0.85)] transition-transform duration-300 group-hover:scale-105"
           />

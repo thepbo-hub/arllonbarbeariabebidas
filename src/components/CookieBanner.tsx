@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Cookie, Settings, Check, X } from 'lucide-react';
+import { safeLocalStorage } from '../utils/storage';
 
 interface CookiePreferences {
   essential: boolean; // Always true
@@ -19,7 +20,7 @@ export const CookieBanner: React.FC = () => {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = safeLocalStorage.getItem(STORAGE_KEY);
       if (!stored) {
         setShowBanner(true);
       } else {
@@ -47,7 +48,7 @@ export const CookieBanner: React.FC = () => {
       updatedAt: new Date().toISOString(),
     };
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+      safeLocalStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
     } catch {
       // Ignore
     }

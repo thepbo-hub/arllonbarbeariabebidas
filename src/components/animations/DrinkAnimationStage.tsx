@@ -157,6 +157,7 @@ const BottleImage: React.FC<{
       alt={alt}
       onLoad={onLoaded}
       onError={onError}
+      decoding="async"
       referrerPolicy="no-referrer"
       className={`max-h-[290px] sm:max-h-[340px] w-auto object-contain filter drop-shadow-[0_15px_25px_rgba(4,23,43,0.85)] select-none pointer-events-none transition-transform ${className}`}
     />

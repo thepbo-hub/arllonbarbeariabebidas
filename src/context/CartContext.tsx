@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { CartItem, Product } from '../types';
 import { PRODUCTS } from '../data/products';
+import { safeSessionStorage, safeLocalStorage } from '../utils/storage';
 
 interface CartContextType {
   items: CartItem[];
@@ -25,10 +26,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       // Remove any previous persistent localStorage to avoid lingering orders
-      localStorage.removeItem('barbearia_drinks_cart_v1');
+      safeLocalStorage.removeItem('barbearia_drinks_cart_v1');
 
-      // Use sessionStorage so cart is wiped when biosite closes
-      const saved = sessionStorage.getItem(STORAGE_KEY);
+      // Use safeSessionStorage so cart is wiped when biosite closes
+      const saved = safeSessionStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
@@ -53,9 +54,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     try {
       if (items.length > 0) {
-        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        safeSessionStorage.setItem(STORAGE_KEY, JSON.stringify(items));
       } else {
-        sessionStorage.removeItem(STORAGE_KEY);
+        safeSessionStorage.removeItem(STORAGE_KEY);
       }
     } catch {
       // ignore
@@ -66,8 +67,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const closeCart = () => setIsOpen(false);
   const toggleCart = () => setIsOpen((prev) => !prev);
 
-  const addToCart = (product: Product, quantity: number, variant?: string) => {
-    if (quantity < 1) return;
+  const addToCart = (product: Product, rawQuantity: number, variant?: string) => {
+    const quantity = Math.floor(Math.max(1, Math.min(99, Number(rawQuantity) || 1)));
 
     // Retrieve official price from catalog
     const authoritative = PRODUCTS.find((p) => p.id === product.id) || product;
@@ -77,9 +78,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const existingIndex = prev.findIndex((i) => i.cartItemId === cartItemId);
       if (existingIndex > -1) {
         const updated = [...prev];
+        const newTotalQty = Math.min(99, updated[existingIndex].quantity + quantity);
         updated[existingIndex] = {
           ...updated[existingIndex],
-          quantity: updated[existingIndex].quantity + quantity,
+          quantity: newTotalQty,
           priceInCents: authoritative.priceInCents,
         };
         setLastAddedItem(updated[existingIndex]);
@@ -100,14 +102,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const updateQuantity = (cartItemId: string, newQuantity: number) => {
+  const updateQuantity = (cartItemId: string, rawQuantity: number) => {
+    const newQuantity = Math.floor(Number(rawQuantity) || 0);
     if (newQuantity <= 0) {
       removeFromCart(cartItemId);
       return;
     }
+    const safeQuantity = Math.min(99, newQuantity);
     setItems((prev) =>
       prev.map((item) =>
-        item.cartItemId === cartItemId ? { ...item, quantity: newQuantity } : item
+        item.cartItemId === cartItemId ? { ...item, quantity: safeQuantity } : item
       )
     );
   };
@@ -119,7 +123,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = () => {
     setItems([]);
     try {
-      sessionStorage.removeItem(STORAGE_KEY);
+      safeSessionStorage.removeItem(STORAGE_KEY);
     } catch {
       // ignore
     }
